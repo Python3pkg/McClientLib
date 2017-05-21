@@ -17,7 +17,7 @@ def generate_serverID(serverID, secret, pubkey):
 
 # This function courtesy of barneygale
 def java_digest(digest):
-    d = long(digest.hexdigest(), 16)
+    d = int(digest.hexdigest(), 16)
     if d >> 39 * 4 & 0x8:
         d = "-%x" % ((-d) & (2 ** (40 * 4) - 1))
     else:
@@ -84,7 +84,7 @@ def get_server_info(host, port, timeout=3.0):
 
     # Check that the first 3 characters were what we expected.
     # Then throw them away.
-    assert data[:3] == u"\xa7\x31\x00"
+    assert data[:3] == "\xa7\x31\x00"
     data = data[3:]
 
     # Split
@@ -164,7 +164,7 @@ def packNbt(s):
         return TAG_Long(s)
     elif isinstance(s, float):
         return TAG_Double(s)
-    elif isinstance(s, (str, unicode)):
+    elif isinstance(s, str):
         return TAG_String(s)
     elif isinstance(s, dict):
         tag = TAG_Compound()

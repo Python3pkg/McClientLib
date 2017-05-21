@@ -1,8 +1,8 @@
 from McClient.networking.Exceptions import (SessionError,
                                             SessionBadLogin,
                                             SessionVersionError)
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 
 
 class BaseSession(object):
@@ -28,14 +28,14 @@ class Session(BaseSession):
 
     def connect(self, username, password):
         """Connects minecraft.net and gets a session id."""
-        data = urllib.urlencode({"user": username,
+        data = urllib.parse.urlencode({"user": username,
                                  "password": password,
                                  "version": self.VERSION})
-        req = urllib2.Request(self.__LOGIN_URL, data, self.__LOGIN_HEADER)
-        opener = urllib2.build_opener()
+        req = urllib.request.Request(self.__LOGIN_URL, data, self.__LOGIN_HEADER)
+        opener = urllib.request.build_opener()
         try:
             response = opener.open(req, None, 10).read()
-        except urllib2.URLError:
+        except urllib.error.URLError:
             raise SessionError("Unable to connect to login server.")
 
         if response.lower() == "bad login":
@@ -61,7 +61,7 @@ class Session(BaseSession):
         url = self.__JOIN_URL + "?user=%s&sessionId=%s&serverId=%s" \
             % (self.username, self.sessionID, serverID)
 
-        response = urllib2.urlopen(url).read()
+        response = urllib.request.urlopen(url).read()
 
         if response != "OK":
             raise SessionError("Authenticating with Minecraft.net failed, " +

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from McClient.Utils import get_server_info as ping
 
-host = raw_input("Host: ")
-port = raw_input("Port(default: 25565): ")
+host = input("Host: ")
+port = input("Port(default: 25565): ")
 if not port:
     port = 25565
 else:
@@ -10,8 +10,8 @@ else:
 
 info = ping(host, port)
 
-print u"Players: {players}".format(players=info["players"])
-print u"Maximum players: {players}".format(players=info["max_players"])
-print u"Message of the Day: {motd}".format(motd=info["motd"])
-print u"Protocol version: {version}".format(version=info["protocol_version"])
-print u"MineCraft version: {version}".format(version=info["minecraft_version"])
+print("Players: {players}".format(players=info["players"]))
+print("Maximum players: {players}".format(players=info["max_players"]))
+print("Message of the Day: {motd}".format(motd=info["motd"]))
+print("Protocol version: {version}".format(version=info["protocol_version"]))
+print("MineCraft version: {version}".format(version=info["minecraft_version"]))

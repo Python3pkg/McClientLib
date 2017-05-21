@@ -1,7 +1,7 @@
 ### VERY HACKY, VERY SCRIPTY, VERY VERY UGLY
 
 import sys
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 from McClient.Events import BaseEventManager as EventManager
 from McClient import networking
@@ -9,11 +9,11 @@ from McClient import networking
 if len(sys.argv) != 1:
     requested_version = sys.argv[1]
 else:
-    requested_version = raw_input("Version (e.g. '1.6.2'): ")
+    requested_version = input("Version (e.g. '1.6.2'): ")
 
 burger_url = "http://b.wiki.vg/json/{version}".format(version=requested_version)
 
-burger_data = urllib2.urlopen(burger_url).read()
+burger_data = urllib.request.urlopen(burger_url).read()
 
 burger = json.loads(burger_data)[0]
 
@@ -21,14 +21,14 @@ eventmanager = EventManager()
 
 ###
 
-print("McClient version: {}".format(networking.PROTOCOL_VERSION))
-print("Burger version: {}\n".format(burger["version"]["protocol"]))
+print(("McClient version: {}".format(networking.PROTOCOL_VERSION)))
+print(("Burger version: {}\n".format(burger["version"]["protocol"])))
 
 ###
 
 burger_packets = {"recv": set(),
                   "send": set()}
-for packet in burger["packets"]["packet"].values():
+for packet in list(burger["packets"]["packet"].values()):
     # Throw away 0x, add leading zero, make uppercase
     packet_id = hex(packet["id"])[2:].zfill(2).upper()  
     
@@ -46,10 +46,10 @@ for event_name in eventmanager:
         mcclient_packets["send"].add(event_name[-2:])
 
 for prefix in ("recv", "send"):
-    print("===" + prefix.upper() + "===")
+    print(("===" + prefix.upper() + "==="))
     # ^ = difference
     for difference in burger_packets[prefix] ^ mcclient_packets[prefix]:
         fmt = "{pid} (In Burger: {ib}, In McClient: {imc})"
         in_burger = difference in burger_packets[prefix]
         in_mcclient = difference in mcclient_packets[prefix]
-        print(fmt.format(pid=difference, ib=in_burger, imc=in_mcclient))
+        print((fmt.format(pid=difference, ib=in_burger, imc=in_mcclient)))

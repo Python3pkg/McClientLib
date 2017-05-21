@@ -15,11 +15,11 @@ def t(*args, **kwargs):
     pid = args[0]
 
     if not pid in black_list:
-        print pid, kwargs
+        print(pid, kwargs)
 
 if len(sys.argv) == 1:  # Interactive mode
-    HOST = raw_input("HOST: ") or "localhost"
-    PORT = int(raw_input("PORT: ") or 25565)
+    HOST = input("HOST: ") or "localhost"
+    PORT = int(input("PORT: ") or 25565)
 
 else:
     HOST = sys.argv[1]
@@ -29,7 +29,7 @@ try:
     with open(".credentials") as f:
         USERNAME, PASSWORD = f.read().split("\n")[:2]
 except IOError:
-    USERNAME = raw_input("Username: ")
+    USERNAME = input("Username: ")
     PASSWORD = getpass()
 
 connection = SimpleClient()

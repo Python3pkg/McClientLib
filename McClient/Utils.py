@@ -41,4 +41,4 @@ def __translate_escape(m):
 
 
 def fix_message(s):
-    return re.sub(ur"\xa7([0-9a-zA-Z])", __translate_escape, s) + "\x1b[0m"
+    return re.sub(r"\xa7([0-9a-zA-Z])", __translate_escape, s) + "\x1b[0m"

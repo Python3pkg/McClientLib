@@ -418,7 +418,7 @@ class Receiver(BaseReceiver):
         EID = self.connection.read_int()
         prop_count = self.connection.read_int()
         properties = {}
-        for i in xrange(prop_count):
+        for i in range(prop_count):
             key = self.connection.read_string()
             value = self.connection.read_double()
             properties[key] = value

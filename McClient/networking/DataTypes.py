@@ -45,7 +45,7 @@ class TypeReader(object):
 
     def read_string(self):
         length = self.read_short() * 2
-        data = unicode(self.read(length), "utf-16be")
+        data = str(self.read(length), "utf-16be")
         return data
 
     def read_byte(self):
